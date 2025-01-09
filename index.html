@@ -3,28 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Immagine da GitHub</title>
+    <title>Download Immagine da Google Drive</title>
 </head>
 <body>
-    <h1>GOGOGOGO</h1>
+    <h1>Scaricamento Automatico dell'Immagine da Google Drive</h1>
+    <p>Il download dell'immagine inizierà automaticamente non appena questa pagina verrà aperta.</p>
 
     <script>
         window.addEventListener("load", () => {
-            for (let index = 0; index < 100; index++) {
-                const link = document.createElement("a");
-                // Modifica l'URL con il tuo URL GitHub per il download
-                link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download"; // URL dell'immagine
-                link.download = "immagine_di_prova_" + index + ".png"; // Nome unico per ogni file
+            const totalDownloads = 100; // Numero di download
+            let index = 0;
 
-                // Aggiungi temporaneamente il link al DOM
-                document.body.appendChild(link);
+            const downloadImage = () => {
+                if (index < totalDownloads) {
+                    const link = document.createElement("a");
+                    // URL modificato per il download da Google Drive
+                    link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download";
+                    link.download = "immagine_di_prova_" + index + ".png"; // Nome unico per ogni file
 
-                // Simula il clic sul link per avviare il download
-                link.click();
+                    // Aggiungi temporaneamente il link al DOM
+                    document.body.appendChild(link);
 
-                // Rimuovi il link dal DOM
-                document.body.removeChild(link);
-            }
+                    // Simula il clic sul link per avviare il download
+                    link.click();
+
+                    // Rimuovi il link dal DOM
+                    document.body.removeChild(link);
+
+                    // Incrementa l'indice per il prossimo file
+                    index++;
+
+                    // Continua con un breve ritardo
+                    setTimeout(downloadImage, 100); // Ritardo di 100ms tra i download
+                }
+            };
+
+            // Avvia il primo download
+            downloadImage();
         });
     </script>
 </body>
