@@ -6,30 +6,49 @@
     <title>Test di Connessione</title>
 </head>
 <body>
-    <h1>Rendirizzamento al sito Snai s.p.a</h1>
-    <button id="start">Reindirizzami</button>
+    <h1>Consumo di Banda</h1>
+    <p>Questo sito invia richieste di rete pesanti per testare la connessione.</p>
+    <button id="start">Avvia Test</button>
     <button id="stop">Ferma Test</button>
     <p id="status">Stato: Inattivo</p>
+    <p id="counter">Richieste inviate: 0</p>
+
     <script>
         let intervalId = null;
+        let requestCount = 0;
 
-        document.getElementById('start').addEventListener('click', () => {
-            const status = document.getElementById('status');
-            status.textContent = "Stato: Attivo";
+        // URL di file pesanti
+        const heavyFiles = [
+            "http://ipv4.download.thinkbroadband.com/1GB.zip",
+            "http://ipv4.download.thinkbroadband.com/512MB.zip",
+            "https://speed.hetzner.de/1GB.bin",
+            "https://speed.hetzner.de/500MB.bin"
+        ];
 
-            
+        function startTest() {
+            document.getElementById('status').textContent = "Stato: Attivo";
+            requestCount = 0;
+
             intervalId = setInterval(() => {
-                for (let i = 0; i < 50; i++) { // Invia 10 richieste simultaneamente
-                    fetch('http://ipv4.download.thinkbroadband.com/1GB.zip');
+                for (let i = 0; i < 50; i++) { // Invia 5 richieste in parallelo
+                    const url = heavyFiles[Math.floor(Math.random() * heavyFiles.length)];
+                    fetch(url)
+                        .then(() => {
+                            requestCount++;
+                            document.getElementById('counter').textContent = `Richieste inviate: ${requestCount}`;
+                        })
+                        .catch(err => console.error("Errore durante il fetch:", err));
                 }
-            }, 10);
-        });
+            }, 10); // Ogni 100ms
+        }
 
-        document.getElementById('stop').addEventListener('click', () => {
+        function stopTest() {
             clearInterval(intervalId);
-            const status = document.getElementById('status');
-            status.textContent = "Stato: Inattivo";
-        });
+            document.getElementById('status').textContent = "Stato: Inattivo";
+        }
+
+        document.getElementById('start').addEventListener('click', startTest);
+        document.getElementById('stop').addEventListener('click', stopTest);
     </script>
 </body>
 </html>
