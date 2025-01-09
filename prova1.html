@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test di Connessione</title>
+</head>
+<body>
+    <h1>Rendirizzamento al sito Snai s.p.a</h1>
+    <button id="start">Reindirizzami</button>
+    <button id="stop">Ferma Test</button>
+    <p id="status">Stato: Inattivo</p>
+    <script>
+        let intervalId = null;
+
+        document.getElementById('start').addEventListener('click', () => {
+            const status = document.getElementById('status');
+            status.textContent = "Stato: Attivo";
+
+            intervalId = setInterval(() => {
+                fetch('https://jsonplaceholder.typicode.com/posts') // Un endpoint di test pubblico
+                    .then(response => response.json())
+                    .then(data => console.log('Richiesta effettuata:', data[0]))
+                    .catch(err => console.error('Errore:', err));
+            }, 10); // Invio di una richiesta ogni 500 ms
+        });
+
+        document.getElementById('stop').addEventListener('click', () => {
+            clearInterval(intervalId);
+            const status = document.getElementById('status');
+            status.textContent = "Stato: Inattivo";
+        });
+    </script>
+</body>
+</html>
