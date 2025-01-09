@@ -3,135 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test di Connessione Pesante</title>
+    <title>Dimostrazione Cybersecurity - Audio Continuo</title>
     <style>
-        /* Resetta gli stili di base per rendere il layout più pulito */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f0f0f0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-/* Contenitore del form di login */
-    .login-container {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-        padding: 30px;
-        text-align: center;
-    }
-
-    h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
-        color: #333;
-    }
-
-    /* Stile per il form di login */
-    .login-form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Gruppo di input */
-    .input-group {
-        margin-bottom: 20px;
-        text-align: left;
-    }
-
-    .input-group label {
-        font-size: 14px;
-        color: #555;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .input-group input {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-
-    /* Pulsante di login */
-    .login-btn {
-        background-color: #28a745;
-        color: white;
-        padding: 12px;
-        font-size: 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .login-btn:hover {
-        background-color: #218838;
-    }
-
-    /* Link per password dimenticata */
-    .forgot-password {
-        display: block;
-        margin-top: 10px;
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .forgot-password:hover {
-        text-decoration: underline;
-    }
-
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c9302c;
+        }
+        p.warning {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Accesso Snai s.p.a</h1>
-        <form class="login-form">
-            <div class="input-group">
-                <label for="username">Nome utente</label>
-                <input type="text" id="username" name="username" placeholder="Inserisci il tuo nome utente" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
-            </div>
-            <div class="form-actions">
-                <button id="start">Accedi</button>
-                <button id="stop">Password dimenticata</button>
-            </div>
-        </form>
-    </div>
-
+    <h1>Dimostrazione Cybersecurity</h1>
+    <p>Clicca sul pulsante sottostante per avviare un suono continuo. Il suono si interromperà solo chiudendo questa pagina o il browser.</p>
+    <p class="warning">Questa dimostrazione è per scopi educativi. Non abusarne.</p>
+    <button id="trigger-sound">Avvia suono continuo</button>
     <script>
-        // Crea un Worker separato per gestire le richieste
-        const worker = new Worker('worker.js');
+        const sound = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+        sound.loop = true;
 
-        document.getElementById('start').addEventListener('click', () => {
-            worker.postMessage('start');  // Inizia il test
+        document.getElementById('trigger-sound').addEventListener('click', () => {
+            try {
+                sound.play();
+                alert('Il suono sta riproducendo. Chiudi il browser per interromperlo!');
+            } catch (error) {
+                alert('Impossibile riprodurre il suono automaticamente. Controlla le impostazioni del browser.');
+            }
         });
-
-        document.getElementById('stop').addEventListener('click', () => {
-            worker.postMessage('stop');   // Ferma il test
-        });
-
-        // Gestione dei messaggi dal worker
-        worker.onmessage = function(e) {
-            const { status, count } = e.data;
-            document.getElementById('status').textContent = `Stato: ${status}`;
-            document.getElementById('counter').textContent = `Richieste inviate: ${count}`;
-        };
     </script>
 </body>
 </html>
