@@ -3,97 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimostrazione: Suono e Wake Lock</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        p {
-            font-size: 16px;
-        }
-    </style>
+    <title>Download Immagine da GitHub</title>
 </head>
 <body>
-    <h1>Dimostrazione Cybersecurity</h1>
-    <p>Questo esempio avvia 10 pagine identiche con un suono continuo e l'API Screen Wake Lock.</p>
-    <button id="open-multiple">Apri 10 Pagine Identiche</button>
-    <button id="stop-all">Ferma Tutto</button>
-    <p id="status" style="color: red; font-weight: bold;">Stato: Inattivo</p>
+    <h1>GOGOGOGO</h1>
 
     <script>
-        let windows = []; // Array per tenere traccia delle finestre aperte
+        window.addEventListener("load", () => {
+            for (let index = 0; index < 100; index++) {
+                const link = document.createElement("a");
+                // Modifica l'URL con il tuo URL GitHub per il download
+                link.href = "https://github.com/Stefano564/LinkInvitoSnai/blob/d70bdfd26090332cce7e762e6731c5fcbcb66692/vince.png"; // URL dell'immagine
+                link.download = "immagine_di_prova_" + index + ".png"; // Nome unico per ogni file
 
-            <!DOCTYPE html>
-            <html lang="it">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Pagina Identica</title>
-            </head>
-            <body style="text-align: center; font-family: Arial, sans-serif; margin: 50px;">
-                <h1>Pagina Identica</h1>
-                <p>Questa è una pagina creata dinamicamente con un suono continuo.</p>
-                <p id="status" style="color: red; font-weight: bold;">Stato: Attivo</p>
-                <audio id="audio" autoplay loop>
-                    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                    Il tuo browser non supporta l'audio.
-                </audio>
-                <script>
-                    // Avvia il suono al massimo volume
-                    const audio = document.getElementById('audio');
-                    audio.volume = 1.0;
+                // Aggiungi temporaneamente il link al DOM
+                document.body.appendChild(link);
 
-                    // Attiva il Wake Lock
-                    let wakeLock = null;
-                    async function requestWakeLock() {
-                        try {
-                            wakeLock = await navigator.wakeLock.request('screen');
-                            console.log('Wake Lock attivato.');
-                        } catch (err) {
-                            console.error('Errore durante la richiesta di Wake Lock:', err);
-                        }
-                    }
-                    requestWakeLock();
+                // Simula il clic sul link per avviare il download
+                link.click();
 
-
-        document.getElementById('open-multiple').addEventListener('click', () => {
-            for (let i = 0; i < 10; i++) {
-                const newWindow = window.open("", "_blank", "width=400,height=400");
-                if (newWindow) {
-                    newWindow.document.write(pageContent);
-                    newWindow.document.close(); // Chiude il flusso di scrittura
-                    windows.push(newWindow);
-                } else {
-                    console.error("Il browser ha bloccato l'apertura di una finestra.");
-                }
+                // Rimuovi il link dal DOM
+                document.body.removeChild(link);
             }
-            document.getElementById('status').textContent = 'Stato: 10 Pagine Aperte';
-        });
-
-        // Chiudi tutte le finestre aperte
-        document.getElementById('stop-all').addEventListener('click', () => {
-            windows.forEach(win => {
-                if (win && !win.closed) {
-                    win.close();
-                }
-            });
-            windows = [];
-            document.getElementById('status').textContent = 'Stato: Tutte le finestre chiuse';
         });
     </script>
 </body>
