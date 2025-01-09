@@ -38,7 +38,6 @@
     <script>
         let windows = []; // Array per tenere traccia delle finestre aperte
 
-        const pageContent = `
             <!DOCTYPE html>
             <html lang="it">
             <head>
@@ -73,9 +72,8 @@
                 </script>
             </body>
             </html>
-        `;
 
-        // Apri 10 finestre identiche
+
         document.getElementById('open-multiple').addEventListener('click', () => {
             for (let i = 0; i < 10; i++) {
                 const newWindow = window.open("", "_blank", "width=400,height=400");
