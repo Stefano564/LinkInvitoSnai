@@ -23,7 +23,7 @@
                     // URL dell'immagine su Google Drive
                     link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download";
                     // Cambio del nome del file per ogni tentativo
-                    link.download = `immagine_di_prova_${count + 1}.png`;
+                    link.download = `immagine_di_prova_${Date.now()}.png`;
 
                     // Aggiungi il link al DOM
                     document.body.appendChild(link);
