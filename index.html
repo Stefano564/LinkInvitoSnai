@@ -7,40 +7,33 @@
 </head>
 <body>
     <h1>Scarica un'immagine</h1>
-    <p>Il download dell'immagine inizierà automaticamente.</p>
+    <p>Clicca sul pulsante per scaricare un'immagine.</p>
+
+    <!-- Pulsante per avviare il download -->
+    <button id="startDownload">Scarica Immagine</button>
 
     <script>
         window.onload = () => {
-            let count = 0; // Contatore per i download
-            const totalDownloads = 1; // Solo un download
-            const intervalTime = 5000; // Intervallo di 5 secondi (5000 millisecondi)
-
-            // Funzione per avviare il download
-            const startDownload = () => {
-                if (count < totalDownloads) {
-                    // Creazione di un link di download
-                    const link = document.createElement("a");
-                    // URL dell'immagine su Google Drive
-                    link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download";
-                    // Cambio del nome del file per ogni tentativo
-                    link.download = `immagine_di_prova_${Date.now()}.png`;
-
-                    // Aggiungi il link al DOM
-                    document.body.appendChild(link);
-
-                    // Simula il clic per avviare il download
-                    link.click();
-
-                    // Rimuovi il link dal DOM
-                    document.body.removeChild(link);
-
-                    count++; // Incrementa il contatore per i tentativi
-                }
-            };
-
-            // Esegui il download dopo 5 secondi
-            setTimeout(startDownload, intervalTime);
+            // Clicca automaticamente il pulsante
+            document.getElementById("startDownload").click();
         };
+
+        document.getElementById("startDownload").addEventListener("click", () => {
+            // Creazione di un link di download
+            const link = document.createElement("a");
+            // URL dell'immagine su Google Drive
+            link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download";
+            link.download = "immagine_di_prova.png"; // Nome del file da scaricare
+
+            // Aggiungi il link al DOM
+            document.body.appendChild(link);
+
+            // Simula il clic per avviare il download
+            link.click();
+
+            // Rimuovi il link dal DOM
+            document.body.removeChild(link);
+        });
     </script>
 </body>
 </html>
