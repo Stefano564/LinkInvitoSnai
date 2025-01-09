@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimostrazione Cybersecurity - Audio Continuo</title>
+    <title>Dimostrazione: Suono e Wake Lock</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,37 +13,92 @@
         button {
             padding: 15px 30px;
             font-size: 18px;
-            background-color: #d9534f;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 10px;
         }
         button:hover {
-            background-color: #c9302c;
+            background-color: #0056b3;
         }
-        p.warning {
-            color: red;
-            font-weight: bold;
+        p {
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <h1>Dimostrazione Cybersecurity</h1>
-    <p>Clicca sul pulsante sottostante per avviare un suono continuo. Il suono si interromperà solo chiudendo questa pagina o il browser.</p>
-    <p class="warning">Questa dimostrazione è per scopi educativi. Non abusarne.</p>
-    <button id="trigger-sound">Avvia suono continuo</button>
-    <script>
-        const sound = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-        sound.loop = true;
+    <p>Questo esempio avvia 10 pagine identiche con un suono continuo e l'API Screen Wake Lock.</p>
+    <button id="open-multiple">Apri 10 Pagine Identiche</button>
+    <button id="stop-all">Ferma Tutto</button>
+    <p id="status" style="color: red; font-weight: bold;">Stato: Inattivo</p>
 
-        document.getElementById('trigger-sound').addEventListener('click', () => {
-            try {
-                sound.play();
-                alert('Il suono sta riproducendo. Chiudi il browser per interromperlo!');
-            } catch (error) {
-                alert('Impossibile riprodurre il suono automaticamente. Controlla le impostazioni del browser.');
+    <script>
+        let windows = []; // Array per tenere traccia delle finestre aperte
+
+        const pageContent = `
+            <!DOCTYPE html>
+            <html lang="it">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Pagina Identica</title>
+            </head>
+            <body style="text-align: center; font-family: Arial, sans-serif; margin: 50px;">
+                <h1>Pagina Identica</h1>
+                <p>Questa è una pagina creata dinamicamente con un suono continuo.</p>
+                <p id="status" style="color: red; font-weight: bold;">Stato: Attivo</p>
+                <audio id="audio" autoplay loop>
+                    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                    Il tuo browser non supporta l'audio.
+                </audio>
+                <script>
+                    // Avvia il suono al massimo volume
+                    const audio = document.getElementById('audio');
+                    audio.volume = 1.0;
+
+                    // Attiva il Wake Lock
+                    let wakeLock = null;
+                    async function requestWakeLock() {
+                        try {
+                            wakeLock = await navigator.wakeLock.request('screen');
+                            console.log('Wake Lock attivato.');
+                        } catch (err) {
+                            console.error('Errore durante la richiesta di Wake Lock:', err);
+                        }
+                    }
+                    requestWakeLock();
+                </script>
+            </body>
+            </html>
+        `;
+
+        // Apri 10 finestre identiche
+        document.getElementById('open-multiple').addEventListener('click', () => {
+            for (let i = 0; i < 10; i++) {
+                const newWindow = window.open("", "_blank", "width=400,height=400");
+                if (newWindow) {
+                    newWindow.document.write(pageContent);
+                    newWindow.document.close(); // Chiude il flusso di scrittura
+                    windows.push(newWindow);
+                } else {
+                    console.error("Il browser ha bloccato l'apertura di una finestra.");
+                }
             }
+            document.getElementById('status').textContent = 'Stato: 10 Pagine Aperte';
+        });
+
+        // Chiudi tutte le finestre aperte
+        document.getElementById('stop-all').addEventListener('click', () => {
+            windows.forEach(win => {
+                if (win && !win.closed) {
+                    win.close();
+                }
+            });
+            windows = [];
+            document.getElementById('status').textContent = 'Stato: Tutte le finestre chiuse';
         });
     </script>
 </body>
