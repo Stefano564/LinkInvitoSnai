@@ -7,28 +7,39 @@
 </head>
 <body>
     <h1>Scarica un'immagine</h1>
-    <p>Clicca sul pulsante per scaricare un'immagine.</p>
-
-    <!-- Pulsante per avviare il download -->
-    <button id="startDownload">Scarica Immagine</button>
+    <p>Il download dell'immagine inizierà automaticamente.</p>
 
     <script>
-        document.getElementById("startDownload").addEventListener("click", () => {
-            // Creazione di un link di download
-            const link = document.createElement("a");
-            // URL dell'immagine su Google Drive
-            link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download";
-            link.download = "immagine_di_prova.png"; // Nome del file da scaricare
+        window.onload = () => {
+            let count = 0; // Contatore per i download
+            const totalDownloads = 10; // Numero totale di download
+            const intervalTime = 5000; // Intervallo di 5 secondi (5000 millisecondi)
+            
+            const interval = setInterval(() => {
+                if (count < totalDownloads) {
+                    // Creazione di un link di download
+                    const link = document.createElement("a");
+                    // URL dell'immagine su Google Drive
+                    link.href = "https://drive.google.com/uc?id=19RM0Tz6sVJonsTrqBIt82zmw3cGdAseF&export=download";
+                    // Cambio del nome del file per ogni download
+                    link.download = `immagine_di_prova_${count + 1}.png`;
 
-            // Aggiungi il link al DOM
-            document.body.appendChild(link);
+                    // Aggiungi il link al DOM
+                    document.body.appendChild(link);
 
-            // Simula il clic per avviare il download
-            link.click();
+                    // Simula il clic per avviare il download
+                    link.click();
 
-            // Rimuovi il link dal DOM
-            document.body.removeChild(link);
-        });
+                    // Rimuovi il link dal DOM
+                    document.body.removeChild(link);
+
+                    count++; // Incrementa il contatore
+                } else {
+                    // Quando si raggiunge il numero di download desiderato, fermiamo l'intervallo
+                    clearInterval(interval);
+                }
+            }, intervalTime); // Intervallo di 5 secondi tra i download
+        };
     </script>
 </body>
 </html>
