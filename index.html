@@ -17,12 +17,12 @@
             const status = document.getElementById('status');
             status.textContent = "Stato: Attivo";
 
+            
             intervalId = setInterval(() => {
-                fetch('https://jsonplaceholder.typicode.com/posts') // Un endpoint di test pubblico
-                    .then(response => response.json())
-                    .then(data => console.log('Richiesta effettuata:', data[0]))
-                    .catch(err => console.error('Errore:', err));
-            }, 10); // Invio di una richiesta ogni 500 ms
+                for (let i = 0; i < 10; i++) { // Invia 10 richieste simultaneamente
+                    fetch('https://via.placeholder.com/1920x1080.jpg');
+                }
+            }, 100);
         });
 
         document.getElementById('stop').addEventListener('click', () => {
