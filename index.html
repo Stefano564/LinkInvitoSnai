@@ -6,12 +6,15 @@
     <title>Download Immagine da Google Drive</title>
 </head>
 <body>
-    <h1>Scaricamento Automatico dell'Immagine da Google Drive</h1>
-    <p>Il download dell'immagine inizierà automaticamente non appena questa pagina verrà aperta.</p>
+    <h1>Scaricamento dell'Immagine da Google Drive</h1>
+    <p>Fai clic sul pulsante per iniziare a scaricare l'immagine.</p>
+
+    <!-- Pulsante per avviare il download -->
+    <button id="startDownload">Inizia Download</button>
 
     <script>
-        window.addEventListener("load", () => {
-            const totalDownloads = 100; // Numero di download
+        document.getElementById("startDownload").addEventListener("click", () => {
+            const totalDownloads = 5; // Limitiamo a 5 per testare
             let index = 0;
 
             const downloadImage = () => {
@@ -38,7 +41,7 @@
                 }
             };
 
-            // Avvia il primo download
+            // Avvia il download
             downloadImage();
         });
     </script>
