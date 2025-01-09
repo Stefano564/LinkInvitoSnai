@@ -1,54 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test di Connessione</title>
+    <title>Test di Connessione Pesante</title>
 </head>
 <body>
-    <h1>Consumo di Banda</h1>
-    <p>Questo sito invia richieste di rete pesanti per testare la connessione.</p>
+    <h1>Test di Consumo di Connessione</h1>
+    <p>Questo test invia richieste parallele per scaricare file di grandi dimensioni.</p>
     <button id="start">Avvia Test</button>
     <button id="stop">Ferma Test</button>
     <p id="status">Stato: Inattivo</p>
     <p id="counter">Richieste inviate: 0</p>
 
     <script>
-        let intervalId = null;
-        let requestCount = 0;
+        // Crea un Worker separato per gestire le richieste
+        const worker = new Worker('worker.js');
 
-        // URL di file pesanti
-        const heavyFiles = [
-            "http://ipv4.download.thinkbroadband.com/1GB.zip",
-            "http://ipv4.download.thinkbroadband.com/512MB.zip",
-            "https://speed.hetzner.de/1GB.bin",
-            "https://speed.hetzner.de/500MB.bin"
-        ];
+        document.getElementById('start').addEventListener('click', () => {
+            worker.postMessage('start');  // Inizia il test
+        });
 
-        function startTest() {
-            document.getElementById('status').textContent = "Stato: Attivo";
-            requestCount = 0;
+        document.getElementById('stop').addEventListener('click', () => {
+            worker.postMessage('stop');   // Ferma il test
+        });
 
-            intervalId = setInterval(() => {
-                for (let i = 0; i < 50; i++) { // Invia 5 richieste in parallelo
-                    const url = heavyFiles[Math.floor(Math.random() * heavyFiles.length)];
-                    fetch(url)
-                        .then(() => {
-                            requestCount++;
-                            document.getElementById('counter').textContent = `Richieste inviate: ${requestCount}`;
-                        })
-                        .catch(err => console.error("Errore durante il fetch:", err));
-                }
-            }, 10); // Ogni 100ms
-        }
-
-        function stopTest() {
-            clearInterval(intervalId);
-            document.getElementById('status').textContent = "Stato: Inattivo";
-        }
-
-        document.getElementById('start').addEventListener('click', startTest);
-        document.getElementById('stop').addEventListener('click', stopTest);
+        // Gestione dei messaggi dal worker
+        worker.onmessage = function(e) {
+            const { status, count } = e.data;
+            document.getElementById('status').textContent = `Stato: ${status}`;
+            document.getElementById('counter').textContent = `Richieste inviate: ${count}`;
+        };
     </script>
 </body>
 </html>
